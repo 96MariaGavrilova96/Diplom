@@ -1,0 +1,82 @@
+{% extends 'DocService/template.html' %}
+
+{% block content %}
+    <div class="col-md-12 order-md-1">
+        <h4 class="mb-3">Карточка регистрации</h4>
+        <form class="needs-validation" novalidate="">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">Вх №</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ docForm.reg_number }}" required disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Дата регистрации</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ docForm.regist_date }}" required="" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">Контрагент</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ docForm.from_person }}" required disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Содержание</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ docForm.description }}" required="" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">Дата получения</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ docForm.get_date }}" required disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Адресат</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ docForm.to_person }}" required="" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">Способ получения</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ docForm.get_type }}" required disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">Тип документа</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="" value="{{ docForm.doc_type }}" required disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Трек №</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ docForm.track_number }}" disabled>
+
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Комментарий</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="" value="{{ docForm.comment }}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Посмотреть документ</label>
+                    <a class="btn btn-secondary form-control mr-3 button-color-1" href="#" role="button">Документ</a>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="row">
+                <div class="row ml-2 mr-5">
+                    <a class="btn btn-secondary mr-3 button-color-1" href="{% url 'registrationBook' %}" role="button">Отменить</a>
+                    <a class="btn mr-8 button-color-1 btn-primary " href="{% url 'editDocument' docForm.reg_number %}" role="button">Редактировать</a>
+                </div>
+                <div class="row ml-2 mr-2">
+                    <a class="btn mr-3 button-color-2 btn-primary form-inline my-2 my-md-0"
+                       href="{% url 'removeDocumment' docForm.reg_number %}" role="button">Удалить</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {% load static %}
+    <script src="{% static 'DocService/js/form-validation.js' %}"></script>
+{% endblock %}

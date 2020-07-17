@@ -1,0 +1,103 @@
+{% extends 'DocService/template.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'registrationBook' %}" method="post">
+    {% csrf_token %}
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 backg-blue rounded shadow-sm">
+            <a class="btn btn-secondary mr-3 button-color-1" href="{% url 'addDocument' %}" role="button">Добавить</a>
+            <button class="btn btn-secondary mr-3 button-color-1" type="submit">Отчет</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm" id="filter-table"
+                   style="margin-left: 5px; margin-right: 5px; width: auto">
+                <thead>
+                <tr>
+                    <th>Вх. №</th>
+                    <th>Трек №</th>
+                    <th>Дата получения</th>
+                    <th>Дата регистрации</th>
+                    <th>Способ получения</th>
+                    <th>Тип документа</th>
+                    <th>Контрагент</th>
+                    <th>Содержание</th>
+                    <th>Адресат</th>
+                    <th>Комментарий</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='table-filters'>
+                    <td><input class="form-control" style="width: 80px;" placeholder="Поиск" name="arg1"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg2"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg3"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg4"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg5"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg6"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg7"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg8"></td>
+                    <td><input class="form-control" style="width: 120px" placeholder="Поиск" name="arg9"></td>
+                    <td></td>
+                </tr>
+                {% for doc in docForm %}
+                    <tr class="custom-clickable-row table-data" data-href="{% url 'readDocument' doc.reg_number %}">
+                        <td>{{ doc.reg_number }}</td>
+                        <td> {{ doc.track_number }} </td>
+                        <td>{{ doc.get_date }}</td>
+                        <td>{{ doc.regist_date }}</td>
+                        <td>{{ doc.get_type }}</td>
+                        <td>{{ doc.doc_type }}</td>
+                        <td>{{ doc.from_person }}</td>
+                        <td>{{ doc.description }}</td>
+                        <td>{{ doc.to_person }}</td>
+                        <td>{{ doc.comment }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script %}
+    {% load static %}
+    <script src="{% static "DocService/js/custom-js.js" %}"></script>
+    <script>
+        $('.table-filters input').on('input', function () {
+            filterTable($(this).parents('table'));
+        });
+
+        function filterTable($table) {
+            var $filters = $table.find('.table-filters td');
+            var $rows = $table.find('.table-data');
+            $rows.each(function (rowIndex) {
+                var valid = true;
+                $(this).find('td').each(function (colIndex) {
+                    if ($filters.eq(colIndex).find('input').val()) {
+                        if (colIndex != 0) {
+                            if ($(this).html().toLowerCase().indexOf(
+                                $filters.eq(colIndex).find('input').val().toLowerCase()) == -1) {
+                                valid = valid && false;
+                            }
+                        } else {
+                            if ($(this).html().toLowerCase() !=
+                                $filters.eq(colIndex).find('input').val().toLowerCase()) {
+                                valid = valid && false;
+                            }
+                        }
+                    }
+                });
+                if (valid === true) {
+                    $(this).css('display', '');
+                } else {
+                    $(this).css('display', 'none');
+                }
+            });
+        }
+
+        function GetCSV() {
+
+        }
+    </script>
+{% endblock %}
